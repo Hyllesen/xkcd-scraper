@@ -17,7 +17,6 @@ imgElem = xkcdSoup.select('#comic img')
 #Get img url
 imgUrl = imgElem[0].attrs['src']
 
-
 #Download the image
 imgRequest = requests.get('http:'+ imgUrl)
 
@@ -35,27 +34,7 @@ print("Done scraping latest image")
 #Get the latest prev link
 prevLink = xkcdSoup.select('.comicNav li a[rel="prev"]')[0].attrs['href']
 
-#Get the next page and it's comic
-res = requests.get(xkcdUrl + prevLink)
-
-res.raise_for_status()
-
-xkcdSoup = bs4.BeautifulSoup(res.text)
-
-imgElem = xkcdSoup.select('#comic img')
-
-imgUrl = imgElem[0].attrs['src']
 comicNumber = prevLink.replace('/', "")
-
-imgRequest = requests.get('http:' + imgUrl)
-
-if imgRequest.status_code == 200:
-    with open(comicNumber + '.png', 'wb') as f:
-        for chunk in imgRequest:
-            f.write(chunk)
-f.close()
-
-print("Done scraping comic number: " + comicNumber)
 
 while (1 < comicNumber):
     prevLink = xkcdSoup.select('.comicNav li a[rel="prev"]')[0].attrs['href']
