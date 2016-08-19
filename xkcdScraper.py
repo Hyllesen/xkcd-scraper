@@ -42,14 +42,15 @@ while (1 < comicNumber):
     res.raise_for_status()
     xkcdSoup = bs4.BeautifulSoup(res.text)
     imgElem = xkcdSoup.select('#comic img')
-    imgUrl = imgElem[0].attrs['src']
-    comicNumber = prevLink.replace('/', "")
-    imgRequest = requests.get('http:' + imgUrl)
-    if imgRequest.status_code == 200:
-        with open(comicNumber, 'wb') as f:
-            for chunk in imgRequest:
-                f.write(chunk)
-    f.close()
-    print("Done scraping comic number: " + comicNumber)
+    if(len(imgElem) >= 1):
+        imgUrl = imgElem[0].attrs['src']
+        comicNumber = prevLink.replace('/', "")
+        imgRequest = requests.get('http:' + imgUrl)
+        if imgRequest.status_code == 200:
+            with open(comicNumber, 'wb') as f:
+                for chunk in imgRequest:
+                    f.write(chunk)
+        f.close()
+        print("Done scraping comic number: " + comicNumber)
 
 print("Done scraping all xkcd comics!")
