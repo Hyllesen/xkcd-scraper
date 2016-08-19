@@ -45,12 +45,13 @@ while (1 < comicNumber):
     if(len(imgElem) >= 1):
         imgUrl = imgElem[0].attrs['src']
         comicNumber = prevLink.replace('/', "")
-        imgRequest = requests.get('http:' + imgUrl)
-        if imgRequest.status_code == 200:
-            with open(comicNumber, 'wb') as f:
-                for chunk in imgRequest:
-                    f.write(chunk)
-        f.close()
-        print("Done scraping comic number: " + comicNumber)
+        if(imgUrl[:6] == "//imgs"):
+            imgRequest = requests.get('http:' + imgUrl)
+            if imgRequest.status_code == 200:
+                with open(comicNumber, 'wb') as f:
+                    for chunk in imgRequest:
+                        f.write(chunk)
+            f.close()
+            print("Done scraping comic number: " + comicNumber)
 
 print("Done scraping all xkcd comics!")
