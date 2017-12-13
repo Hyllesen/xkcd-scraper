@@ -48,7 +48,7 @@ while (1 < comicNumber):
         if(imgUrl[:6] == "//imgs"):
             imgRequest = requests.get('http:' + imgUrl)
             if imgRequest.status_code == 200:
-                with open(comicNumber, 'wb') as f:
+                with open(comicNumber + '.png', 'wb') as f:
                     for chunk in imgRequest:
                         f.write(chunk)
             f.close()
